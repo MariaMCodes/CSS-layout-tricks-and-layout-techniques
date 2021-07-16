@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS layout: tricks and layout techniques</title>
+    <link rel="stylesheet" href="css/styles.css" type="text/css">
+</head>
+
+<body></body>
+<!--CSS layout tricks and techniques used for positioning 
+
+Positioning with constraints-->
+<section>
+    <div class="parent blue">
+        <div class="previous green">prev</div>
+        <div class="next red">next</div>
+    </div>
+</section>
+<br>
+<br>
+<!--Float-based grids: how CSS grid frameworks work-->
+<section>
+    <div class="clearfix">
+        <div class="column-4 blue">4-col</div>
+        <div class="column-8 green">8-col</div>
+    </div>
+    <div class="cleafix">
+        <div class="column-4 blue">4-col</div>
+        <div class="column-4 green">4-col</div>
+        <div class="column-4 orange">4-col</div>
+    </div>
+</section>
+<br>
+<br>
+<!--Techniques for horizontal and vertical centering in CSS
+
+1. Horizontally centering block-level elements in normal flow-->
+<section>
+    <div class="blue">
+        <div class="block-center green">Centered</div>
+    </div>
+    <br>
+    <br>
+
+    <!--Horizontally centering inline-level elements within line boxes-->
+    <div class="text-align-center blue">
+        <span class="green">Centered</span>
+    </div>
+    <br>
+    <br>
+
+    <!--Vertically centering inline-block elements-->
+    <div class="valign-center blue">
+        <span class="green">Centered</span>
+    </div>
+    <br>
+    <br>
+
+    <!--Horizontal and vertical centering
+    
+    1. position: absolute constraint based centering-->
+    <div class="center-container blue">
+        <div class="dialog absolute-center green">Centered</div>
+    </div>
+    <br>
+    <br>
+
+    <!--2. position: absolute negative margin based centering-->
+
+    <div class="center-container2 blue">
+        <div class="absolute-center-negative green">Centered</div>
+    </div>
+    <br>
+    <br>
+
+    <!--3. flexbox based centering-->
+    <div class="flexbox-center blue">
+        <div class="green">Centered</div>
+    </div>
+</section>
+<br>
+<br>
+<!--Box rendering and stacking context-->
+<!--Activity-->
+<div>
+    <div class="RR red">Red</div>
+</div>
+<div>
+    <div class="GG green">Green</div>
+</div>
+<div>
+    <div class="BB blue">Blue</div>
+</div>
+
+
+
+</body>
+
+</html>
