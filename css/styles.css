@@ -1,0 +1,270 @@
+/* CSS layout: tricks and layout techniques */
+
+.violet {
+    background-color: rgb(146, 105, 146);
+    border: 3px solid purple;
+}
+
+.red {
+    background-color: rgb(243, 156, 156);
+    border: 3px solid red;
+}
+
+.blue {
+    background-color: rgb(144, 144, 241);
+    border: 3px solid blue;
+}
+
+.green {
+    background-color: rgb(151, 238, 151);
+    border: 3px solid green;
+}
+
+.orange {
+    background-color: rgb(252, 209, 129);
+    border: 3px solid orange;
+}
+
+
+/* CSS layout tricks and techniques used for positioning */
+
+
+/* Positioning with constraints */
+
+.parent {
+    position: relative;
+    width: 80%;
+    height: 80%;
+    margin: 0 40px;
+}
+
+.previous,
+.next {
+    position: absolute;
+    width: 30px;
+    height: 20px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.previous {
+    left: 0;
+    margin-left: -15px;
+}
+
+.next {
+    right: 0;
+    margin-right: -15px;
+}
+
+
+/* On the vertical axis, top: 0, bottom: 0, margin-top: auto, margin-bottom: auto combine to trigger centering (as described in the box model chapter). On the horizontal axis, for the .previous div, left: 0, right: auto, margin-right: auto and margin-left: -15px (or auto) cause the box to be positioned at the left edge of the parent. The -15px negative margin (half the width) places the box neatly on top of the box. The same rules apply to the .next div (using right: 0 instead). */
+
+
+/* Float-based grids: how CSS grid frameworks work */
+
+
+/* Rudimentary grid framework to demonstrate how these techniques work together. The example below illustrates: */
+
+* {
+    box-sizing: border-box;
+}
+
+.clearfix::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.column-4,
+.column-8 {
+    float: left;
+    position: relative;
+}
+
+.column-4 {
+    width: 33.3333%;
+}
+
+.column-8 {
+    width: 66.6667%;
+}
+
+
+/* In order to make this adaptive to different sizes, the rows can have defined transition points where they switch to a different size using media queries. For small screen sizes, you'd want to change the columns to a more basic sequential display: block layout with float: none. */
+
+
+/* Techniques for horizontal and vertical centering in CSS */
+
+
+/* 1. Horizontally centering block-level elements in normal flow */
+
+.block-center {
+    display: block;
+    width: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/* Disadvantage - You need to specify the width of the block explicitly for the centering to take place. For example, in the example above, the text overflows a little since I didn't get the width exactly correct. */
+
+
+/* 2. Horizontally centering inline-level elements within line boxes */
+
+.text-align-center {
+    text-align: center;
+}
+
+
+/* Disadvantage -  Long lines of text will wrap onto multiple line boxes in an inline formatting context, and centering is only applied after the lines have been broken up. This is the desired behavior for text, but if you are centering non-text items you may see undesired behavior when the containing element is very small and items are broken up onto multiple line boxes. 
+
+3. Vertically centering inline-block elements */
+
+.valign-center {
+    vertical-align: middle;
+    height: 100px;
+    /*line-height: 600%;*/
+}
+
+
+/* Why does setting vertical-align: middle not cause the single inline-level element to be vertically centered? 
+
+Inline-level content is first split onto line boxes, which are positioned simply starting from the top of the container that establishes the formatting context.
+
+vertical-align: middle only affects the relative alignment of inline-level blocks within the same line box. The height of the line box is determined by its contents. Since there is only one item, the height of the line box and the height of the item match exactly. The end result is that the line box is positioned at the top of the parent container.
+
+In flexbox, you can separately control the alignment of flex lines (which are conceptually very similar to line boxes); but for inline formatting contexts you can only control the alignment of the items and not the alignment of lines. 
+
+Here are two ways to make the example above work:
+
+explicitly set line-height to an absolute value in pixels
+use a small inline-block pseudo-element to force the current line box to expand to 100% of the parent height
+For solution 1, you cannot set line-height to 100%, because line height is relative to parent font height, not parent container height.
+
+For solution 2, you need to use an inline-block because normal inline-level boxes do not have a height property and hence cannot reference the parent height. A pseudo-element is preferable to a real element because it requires fewer changes in markup.*/
+
+
+/* Horizontal and vertical centering */
+
+
+/* 1. position: absolute constraint based centering */
+
+* {
+    box-sizing: border-box;
+}
+
+.center-container {
+    position: relative;
+    height: 100px;
+    width: 200px;
+}
+
+.dialog {
+    height: 40%;
+    width: 50%;
+}
+
+.absolute-center {
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+
+/* position: relative on the parent container causes it to be considered to be explicitly positioned, but since no offsets are specified, it is positioned just like it would be in normal flow.
+
+Setting position: absolute on the dialog causes it to be taken out of normal flow and positioned absolutely.
+
+Normally, in the absolute positioning scheme, margin: auto is interpreted as 0. However, when the content dimensions and the offsets are defined, margin: auto uses the constraint-based approach to allocate the remaining space to the margins (with the added constraint that the margins have the same value), causing the block to be centered. This is done for both the horizontal and vertical margins.
+
+Disadvantages - You need to specify both the width and the height in order to center both vertically and horizontally. You may be able to work around those issues using max-width/min-width/max-height/min-height and using percentage-based dimensions. Also, this only works on IE8 and up. 
+
+If you wanted to align the layer to one of the corners (e.g. top, left, bottom, right), how would you change the markup?
+
+Setting one of the offsets to auto will cause that value to be calculated based on the box model constraints. */
+
+
+/* 2. position: absolute negative margin based centering. The only good thing about the negative margins centering technique is that it works on ancient versions of IE. */
+
+* {
+    box-sizing: border-box;
+}
+
+.center-container2 {
+    position: relative;
+    height: 100px;
+    width: 200px;
+}
+
+.absolute-center-negative {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    margin-left: -50px;
+    /* (width + padding)/2 */
+    height: 50px;
+    margin-top: -25px;
+    /* (height + padding)/2 */
+}
+
+
+/* position: relative on the parent container causes it to be considered to be explicitly positioned, but since no offsets are specified, it is positioned just like it would be in normal flow.
+
+Setting position: absolute on the dialog causes it to be taken out of normal flow and positioned absolutely.
+
+Setting top: 50% and left: 50% causes the absolutely positioned box to be offset 50% of the containing block's height and width (respectively).
+
+This would merely place the top left corner of the dialog at the center. To move the center of the dialog box to the center of the parent container, negative margins which are half the width/height of the dialog are used. 
+
+Disadvantages:
+- You need to specify both the width and the height in order to center both vertically and horizontally.
+- Adjusting the negative margins manually can be painful. However, this is the only position: absolute based technique that works in IE6. */
+
+
+/* 3. flexbox based centering */
+
+.flexbox-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    width: 200px;
+}
+
+
+/* Disadvantages - First, flexbox is not supported on every browser; and on some older versions it may still require browser-specific prefixes (e.g. display: -webkit-flex;, display: -ms-flexbox).
+
+Second, the flexbox centering is still line-based. You may want to set flex-wrap: nowrap to avoid issues if you have multiple centered items. */
+
+
+/* Box rendering and stacking context 
+
+Activity */
+
+.RR,
+.GG,
+.BB {
+    position: absolute;
+    width: 200px;
+    height: 50px;
+}
+
+.RR {
+    z-index: 1;
+}
+
+.GG {
+    top: 20px;
+    left: 20px;
+}
+
+.BB {
+    top: 40px;
+    left: 40px;
+}
